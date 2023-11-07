@@ -1,6 +1,6 @@
 const SectionHead = ({ restaurant }) => {
   return (
-    <section className="section-head">
+    <section className="hero">
       <div className="container">
         <div className="title">
           <h1>{restaurant.name}</h1>

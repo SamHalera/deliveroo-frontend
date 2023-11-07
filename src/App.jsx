@@ -1,4 +1,5 @@
 import "./App.css";
+import "./assets/responsive.css";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import logo from "./assets/images/logo-teal.svg";
@@ -15,10 +16,13 @@ function App() {
   useEffect(() => {
     console.log("useEffect HERE");
     const fetchData = async () => {
-      const response = await axios.get("http://localhost:3000");
-
-      setData(response.data);
-      setIsLoading(false);
+      try {
+        const response = await axios.get("http://localhost:3000");
+        setData(response.data);
+        setIsLoading(false);
+      } catch (error) {
+        console.log({ message: error.message });
+      }
     };
 
     fetchData();
@@ -40,7 +44,7 @@ function App() {
             {data.categories.map((category) => {
               if (category.meals.length > 0) {
                 return (
-                  <div key={category.name} className="category">
+                  <section key={category.name} className="category">
                     <div className="category-name">
                       <h2>{category.name}</h2>
                     </div>
@@ -48,16 +52,16 @@ function App() {
                     <div className="meals">
                       {category.meals.map((meal) => {
                         return (
-                          <div key={meal.title} className="one-meal">
+                          <article key={meal.id} className="one-meal">
                             <div className="meal-infos">
                               <h3>{meal.title}</h3>
-                              <p>{meal.description.substring(0, 62)}</p>
-                              <div className="price">
+                              <p>{meal.description}</p>
+                              <div className="price-popular">
                                 <span>{meal.price}</span>
 
                                 {meal.popular && (
                                   <span className="popular">
-                                    <i className="icon-STAR_FILL"></i> populaire
+                                    <i className="icon-STAR_FILL"></i> Populaire
                                   </span>
                                 )}
                               </div>
@@ -67,12 +71,14 @@ function App() {
                                 <img src={meal.picture} alt="" />
                               </div>
                             )}
-                          </div>
+                          </article>
                         );
                       })}
                     </div>
-                  </div>
+                  </section>
                 );
+              } else {
+                return null;
               }
             })}
           </section>

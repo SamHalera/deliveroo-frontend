@@ -1,0 +1,74 @@
+:root {
+  --bg-color-mobile: #8f3c82;
+}
+@media (max-width: 1224px) {
+  .hero .container {
+    padding: 40px 24px;
+  }
+  .hero .container .title-picture {
+    width: 76%;
+  }
+  main .container {
+    padding: 30px 24px;
+  }
+}
+@media (max-width: 1124px) {
+  .container {
+    padding: 0 24px;
+  }
+  .hero .container {
+    padding: 40px 24px;
+  }
+
+  .meals {
+    flex-direction: column;
+  }
+  .one-meal {
+    width: 100%;
+  }
+}
+
+@media (max-width: 885px) {
+  .hero .container {
+    flex-direction: column-reverse;
+    padding: 40px 0;
+  }
+  .hero .container .title {
+    padding: 24px;
+    width: 100%;
+  }
+  .hero .container .title-picture {
+    width: 100%;
+    margin-bottom: 20px;
+  }
+  .hero .container .title-picture img {
+    aspect-ratio: 85/20;
+    object-fit: cover;
+    border-radius: 0;
+  }
+}
+
+@media (max-width: 768px) {
+  main .container {
+    flex-direction: column;
+  }
+  .all-categories {
+    width: 100%;
+  }
+  aside {
+    position: sticky;
+    bottom: 0;
+    height: 100px;
+    overflow: hidden;
+    margin-left: -24px;
+    margin-right: -24px;
+    border-radius: 0px;
+  }
+  aside .cart {
+    width: 100%;
+    justify-content: flex-start;
+  }
+  .cart button {
+    background-color: var(--bg-color-mobile);
+  }
+}

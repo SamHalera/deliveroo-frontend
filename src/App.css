@@ -1,18 +1,10 @@
 @import url("./assets/fonts/stylesheet.css");
 @import url("./assets/icons/style.css");
-:root {
-  font-family: "IBM Plex Sans", sans-serif;
-  --lightgray: #f2f5f5;
-  --primary-color: #02cdbd;
-  --text-color: #2e3333;
-  --p-color: #808484;
-  --box-shadow: 0px 9px 19px #d2d2d2;
-  --box-shadow-light: rgba(0, 0, 0, 0.08) 0px 1px 4px;
-}
+@import url("./assets/variables.css");
 /*=======GENERAL======*/
 body {
   color: var(--text-color);
-  font-family: "IBM Plex Sans", sans-serif;
+  font-family: var(--font-family);
 }
 .container {
   max-width: 1200px;
@@ -26,40 +18,47 @@ img {
 }
 h1 {
   font-size: 32px;
+  font-weight: bold;
 }
 
 /*=======HEADER======*/
 header {
   width: 100%;
   border-bottom: 1px solid var(--lightgray);
-  padding: 25px 0;
+  padding: 24px;
 }
 
 header img {
   width: 130px;
 }
 
-/*=======SECTION-HEAD======*/
-.section-head {
+/*=======hero======*/
+.hero {
   margin-bottom: 20px;
 }
-.section-head .container {
+.hero .container {
   display: flex;
-  padding: 40px 0;
+  padding: 40px 0px;
+  gap: 20px;
 }
-.section-head .container .title {
-  width: 55%;
+.hero .container .title {
+  /* width: 55%; */
   display: flex;
   flex-direction: column;
   gap: 25px;
 }
-.section-head .container .title p {
+.hero .container .title p {
   font-size: 19px;
   line-height: 29px;
   color: var(--p-color);
 }
-.section-head .container .title-picture {
-  width: 45%;
+.hero .container .title-picture {
+  width: 60%;
+}
+.title-picture img {
+  aspect-ratio: 35/20;
+  object-fit: cover;
+  border-radius: 5px;
 }
 
 /*=======MAIN======*/
@@ -89,6 +88,7 @@ main .container {
 }
 .category h2 {
   font-size: 28px;
+  font-weight: bold;
 }
 .meals {
   display: flex;
@@ -101,8 +101,9 @@ main .container {
   background-color: #fff;
   border-radius: 6px;
   display: flex;
+  align-items: flex-start;
   gap: 25px;
-  padding: 20px;
+  padding: 15px;
   transition: all 0.3s ease-in-out;
   cursor: pointer;
 }
@@ -114,7 +115,7 @@ main .container {
   width: 665%;
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
+  /* justify-content: space-between; */
   gap: 18px;
 }
 .meal-infos h3 {
@@ -123,10 +124,15 @@ main .container {
 .meal-infos p {
   font-size: 14px;
   color: var(--p-color);
+  height: 40px;
+  line-height: 20px;
+  overflow: hidden;
 }
-.meal-infos .price {
+.meal-infos .price-popular {
   display: flex;
-  justify-content: space-between;
+}
+.price-popular span:first-child {
+  margin-right: 20px;
 }
 .meal-infos .popular {
   color: #ff8000;
@@ -159,18 +165,28 @@ aside .cart {
   padding: 25px;
   display: flex;
   flex-direction: column;
+  justify-content: space-between;
   position: sticky;
   top: 30px;
   border-radius: 6px;
 }
 .cart button {
   width: 100%;
-  border: none;
+  border: 1px solid transparent;
   border-radius: 8px;
-  background-color: #bac3c3;
-  color: var(--text-color);
+  /* background-color: #bac3c3; */
+  background-color: var(--primary-color);
+  /* color: var(--text-color); */
+  color: white;
   font-weight: bold;
   padding: 15px;
+  transition: all 0.4s ease-in-out;
+  cursor: pointer;
+}
+button:hover {
+  background-color: white;
+  color: var(--primary-color);
+  border: 1px solid var(--primary-color);
 }
 .cart-items p {
   text-align: center;
