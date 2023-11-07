@@ -1,35 +1,93 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import "./App.css";
+import { useEffect, useState } from "react";
+import axios from "axios";
+import logo from "./assets/images/logo-teal.svg";
+import Header from "./components/Header";
+import SectionHead from "./components/SectionHead";
 
 function App() {
-  const [count, setCount] = useState(0)
+  console.log("1");
+  const [data, setData] = useState();
+  const [isLoading, setIsLoading] = useState(true);
 
-  return (
+  console.log("2");
+
+  useEffect(() => {
+    console.log("useEffect HERE");
+    const fetchData = async () => {
+      const response = await axios.get("http://localhost:3000");
+
+      setData(response.data);
+      setIsLoading(false);
+    };
+
+    fetchData();
+  }, []);
+
+  console.log("render HERE!");
+  return isLoading ? (
+    <p>Loading ....</p>
+  ) : (
     <>
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
+      <Header logo={logo} />
+
+      <SectionHead restaurant={data.restaurant} />
+      {console.log(data.restaurant)}
+
+      <main>
+        <div className="container">
+          <section className="all-categories">
+            {data.categories.map((category) => {
+              if (category.meals.length > 0) {
+                return (
+                  <div key={category.name} className="category">
+                    <div className="category-name">
+                      <h2>{category.name}</h2>
+                    </div>
+
+                    <div className="meals">
+                      {category.meals.map((meal) => {
+                        return (
+                          <div key={meal.title} className="one-meal">
+                            <div className="meal-infos">
+                              <h3>{meal.title}</h3>
+                              <p>{meal.description.substring(0, 62)}</p>
+                              <div className="price">
+                                <span>{meal.price}</span>
+
+                                {meal.popular && (
+                                  <span className="popular">
+                                    <i className="icon-STAR_FILL"></i> populaire
+                                  </span>
+                                )}
+                              </div>
+                            </div>
+                            {meal.picture && (
+                              <div className="meal-picture">
+                                <img src={meal.picture} alt="" />
+                              </div>
+                            )}
+                          </div>
+                        );
+                      })}
+                    </div>
+                  </div>
+                );
+              }
+            })}
+          </section>
+          <aside>
+            <div className="cart">
+              <button disabled>Valider mon panier</button>
+              <div className="cart-items">
+                <p>Votre panier est vide</p>
+              </div>
+            </div>
+          </aside>
+        </div>
+      </main>
     </>
-  )
+  );
 }
 
-export default App
+export default App;
