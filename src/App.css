@@ -188,8 +188,22 @@ button:hover {
   color: var(--primary-color);
   border: 1px solid var(--primary-color);
 }
-.cart-items p {
+.cart-items > p {
   text-align: center;
-
   color: var(--p-color);
+}
+
+.cart-inner {
+  display: flex;
+  justify-content: space-between;
+  gap: 14px;
+}
+.cart-inner .counter {
+  display: flex;
+  gap: 10px;
+}
+.cart-inner p.item {
+  display: flex;
+  justify-content: space-between;
+  text-align: inherit;
 }
