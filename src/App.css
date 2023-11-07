@@ -162,10 +162,10 @@ aside .cart {
   background-color: white;
   width: 350px;
   min-height: 185px;
-  padding: 25px;
+  padding: 14px;
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
+  /* justify-content: space-between; */
   position: sticky;
   top: 30px;
   border-radius: 6px;
@@ -180,6 +180,7 @@ aside .cart {
   color: white;
   font-weight: bold;
   padding: 15px;
+  margin-bottom: 30px;
   transition: all 0.4s ease-in-out;
   cursor: pointer;
 }
@@ -187,6 +188,12 @@ button:hover {
   background-color: white;
   color: var(--primary-color);
   border: 1px solid var(--primary-color);
+}
+
+.cart-items {
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
 }
 .cart-items > p {
   text-align: center;
@@ -196,14 +203,20 @@ button:hover {
 .cart-inner {
   display: flex;
   justify-content: space-between;
-  gap: 14px;
+  gap: 10px;
 }
 .cart-inner .counter {
   display: flex;
-  gap: 10px;
+  gap: 6px;
+  color: var(--p-color);
 }
-.cart-inner p.item {
-  display: flex;
-  justify-content: space-between;
-  text-align: inherit;
+.cart-inner .counter span:first-child,
+.cart-inner .counter span:last-child {
+  font-size: 20px;
+  color: var(--primary-color);
+  cursor: pointer;
+}
+
+.cart-inner .title {
+  flex: 1 1;
 }

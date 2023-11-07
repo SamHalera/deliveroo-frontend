@@ -18,14 +18,42 @@ function App() {
   // console.log("2");
 
   //Deal with the add to cart item
-  const handleClickOnItem = (item) => {
-    const cloneItemsOnCart = [...itemsOnCart];
+  const handleClickOnItem = (item, index) => {
     const cloneCounter = [...counterCart];
+    const cloneItemsOnCart = [...itemsOnCart];
+    if (!cloneItemsOnCart.includes(item)) {
+      console.log("IF");
+      cloneItemsOnCart.push(item);
+      cloneCounter.push(1);
+      setItemsOnCart(cloneItemsOnCart);
+      setCounterCart(cloneCounter);
+    } else {
+      console.log("ELSE");
+      console.log("index=>", index);
+      cloneCounter[index] = cloneCounter[index] + 1;
+      setCounterCart(cloneCounter);
+    }
+  };
 
-    cloneItemsOnCart.push(item);
-    cloneCounter.push(1);
-    setItemsOnCart(cloneItemsOnCart);
+  const handleIncrement = (item, index) => {
+    const cloneCounter = [...counterCart];
+    cloneCounter[index] = cloneCounter[index] + 1;
     setCounterCart(cloneCounter);
+  };
+  const handleDecrement = (item, index) => {
+    const cloneCounter = [...counterCart];
+    const cloneItemsOnCart = [...itemsOnCart];
+
+    if (cloneCounter[index] === 1) {
+      console.log("last index => ", item[index]);
+      cloneItemsOnCart.splice(index, 1);
+      cloneCounter.splice(index, 1);
+      setItemsOnCart(cloneItemsOnCart);
+      setCounterCart(cloneCounter);
+    } else {
+      cloneCounter[index] = cloneCounter[index] - 1;
+      setCounterCart(cloneCounter);
+    }
   };
 
   useEffect(() => {
@@ -67,12 +95,12 @@ function App() {
 
                     {/* display a section for a group of category meals */}
                     <div className="meals">
-                      {category.meals.map((meal) => {
+                      {category.meals.map((meal, index) => {
                         return (
                           //Display each meal
                           <article
                             onClick={() => {
-                              handleClickOnItem(meal);
+                              handleClickOnItem(meal, index);
                             }}
                             key={meal.id}
                             className="one-meal"
@@ -110,27 +138,39 @@ function App() {
             <div className="cart">
               <button disabled>Valider mon panier</button>
 
-              <p>Votre panier est vide</p>
+              {itemsOnCart.length <= 0 && <p>Votre panier est vide</p>}
 
-              {itemsOnCart.length > 0 && (
-                <div className="cart-items">
-                  {itemsOnCart.map((item) => {
-                    return (
-                      <div className="cart-inner" key={item.id}>
-                        <div key={item.id} className="counter">
-                          <span key={item.id}>-</span>
-                          <span key={item.id}>0</span>
-                          <span key={item.id}>+</span>
-                        </div>
-                        <div key={item.id} className="item">
-                          <p key={item.id}>{item.title}</p>
-                          <p key={item.id}>{item.price}</p>
-                        </div>
+              <div className="cart-items">
+                {itemsOnCart.map((item, index) => {
+                  return (
+                    <div className="cart-inner" key={item.id}>
+                      <div className="counter">
+                        <span
+                          onClick={() => {
+                            handleDecrement(item, index);
+                            console.log("item du panier", itemsOnCart[index]);
+                            console.log("item du counter", counterCart[index]);
+                          }}
+                          className="icon-minus"
+                        ></span>
+                        <span>{counterCart[index]}</span>
+                        <span
+                          onClick={() => {
+                            handleIncrement(item, index);
+                          }}
+                          className="icon-plus"
+                        ></span>
                       </div>
-                    );
-                  })}
-                </div>
-              )}
+                      <div className="title">
+                        <p>{item.title}</p>
+                      </div>
+                      <div className="price">
+                        <p>{item.price} €</p>
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
             </div>
           </aside>
         </div>
