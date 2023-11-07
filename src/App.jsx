@@ -5,6 +5,8 @@ import axios from "axios";
 import logo from "./assets/images/logo-teal.svg";
 import Header from "./components/Header";
 import SectionHead from "./components/SectionHead";
+import Category from "./components/Category";
+import Aside from "./components/Aside";
 
 function App() {
   // console.log("1");
@@ -21,17 +23,21 @@ function App() {
   const handleClickOnItem = (item, index) => {
     const cloneCounter = [...counterCart];
     const cloneItemsOnCart = [...itemsOnCart];
+
     if (!cloneItemsOnCart.includes(item)) {
       console.log("IF");
+      console.log("index=>", index);
       cloneItemsOnCart.push(item);
       cloneCounter.push(1);
       setItemsOnCart(cloneItemsOnCart);
       setCounterCart(cloneCounter);
     } else {
+      const indexOfCounter = cloneItemsOnCart.indexOf(item);
       console.log("ELSE");
-      console.log("index=>", index);
-      cloneCounter[index] = cloneCounter[index] + 1;
+      console.log("index inside else=>", cloneCounter);
+      cloneCounter[indexOfCounter] = cloneCounter[indexOfCounter] + 1;
       setCounterCart(cloneCounter);
+      console.log("index after else=>", index);
     }
   };
 
@@ -87,92 +93,23 @@ function App() {
             {data.categories.map((category) => {
               if (category.meals.length > 0) {
                 return (
-                  // display a section for each category
-                  <section key={category.name} className="category">
-                    <div className="category-name">
-                      <h2>{category.name}</h2>
-                    </div>
-
-                    {/* display a section for a group of category meals */}
-                    <div className="meals">
-                      {category.meals.map((meal, index) => {
-                        return (
-                          //Display each meal
-                          <article
-                            onClick={() => {
-                              handleClickOnItem(meal, index);
-                            }}
-                            key={meal.id}
-                            className="one-meal"
-                          >
-                            <div className="meal-infos">
-                              <h3>{meal.title}</h3>
-                              <p>{meal.description}</p>
-                              <div className="price-popular">
-                                <span>{meal.price}</span>
-
-                                {meal.popular && (
-                                  <span className="popular">
-                                    <i className="icon-STAR_FILL"></i> Populaire
-                                  </span>
-                                )}
-                              </div>
-                            </div>
-                            {meal.picture && (
-                              <div className="meal-picture">
-                                <img src={meal.picture} alt="" />
-                              </div>
-                            )}
-                          </article>
-                        );
-                      })}
-                    </div>
-                  </section>
+                  <Category
+                    key={category.name}
+                    category={category}
+                    handleClickOnItem={handleClickOnItem}
+                  />
                 );
               } else {
                 return null;
               }
             })}
           </section>
-          <aside>
-            <div className="cart">
-              <button disabled>Valider mon panier</button>
-
-              {itemsOnCart.length <= 0 && <p>Votre panier est vide</p>}
-
-              <div className="cart-items">
-                {itemsOnCart.map((item, index) => {
-                  return (
-                    <div className="cart-inner" key={item.id}>
-                      <div className="counter">
-                        <span
-                          onClick={() => {
-                            handleDecrement(item, index);
-                            console.log("item du panier", itemsOnCart[index]);
-                            console.log("item du counter", counterCart[index]);
-                          }}
-                          className="icon-minus"
-                        ></span>
-                        <span>{counterCart[index]}</span>
-                        <span
-                          onClick={() => {
-                            handleIncrement(item, index);
-                          }}
-                          className="icon-plus"
-                        ></span>
-                      </div>
-                      <div className="title">
-                        <p>{item.title}</p>
-                      </div>
-                      <div className="price">
-                        <p>{item.price} €</p>
-                      </div>
-                    </div>
-                  );
-                })}
-              </div>
-            </div>
-          </aside>
+          <Aside
+            itemsOnCart={itemsOnCart}
+            handleDecrement={handleDecrement}
+            handleIncrement={handleIncrement}
+            counterCart={counterCart}
+          />
         </div>
       </main>
     </>
