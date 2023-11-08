@@ -14,52 +14,94 @@ function App() {
   const [isLoading, setIsLoading] = useState(true);
   const [itemsOnCart, setItemsOnCart] = useState([]);
   const [counterCart, setCounterCart] = useState([]);
+  const [eachTotals, setEachTotals] = useState([]);
+  const [subTotal, setSubTotal] = useState(0);
+  const [total, setTotal] = useState(0);
+  const [deliveryFee, setDeliveryFee] = useState(2.5);
 
   console.log("itemsOnCart =>", itemsOnCart);
   console.log("counterCart =>", counterCart);
+  console.log("eachTotals =>", eachTotals);
+  console.log("subTotal =>", subTotal);
+  console.log("total =>", total);
   // console.log("2");
 
   //Deal with the add to cart item
   const handleClickOnItem = (item, index) => {
     const cloneCounter = [...counterCart];
     const cloneItemsOnCart = [...itemsOnCart];
-
+    const cloneEachTotals = [...eachTotals];
+    let sum = 0;
     if (!cloneItemsOnCart.includes(item)) {
       console.log("IF");
       console.log("index=>", index);
       cloneItemsOnCart.push(item);
       cloneCounter.push(1);
+      cloneEachTotals.push(parseFloat(item.price));
       setItemsOnCart(cloneItemsOnCart);
-      setCounterCart(cloneCounter);
+      // setCounterCart(cloneCounter);
+      // setEachTotals(cloneEachTotals);
     } else {
-      const indexOfCounter = cloneItemsOnCart.indexOf(item);
+      const indexOfReference = cloneItemsOnCart.indexOf(item);
       console.log("ELSE");
       console.log("index inside else=>", cloneCounter);
-      cloneCounter[indexOfCounter] = cloneCounter[indexOfCounter] + 1;
-      setCounterCart(cloneCounter);
-      console.log("index after else=>", index);
+      cloneCounter[indexOfReference] = cloneCounter[indexOfReference] + 1;
+      cloneEachTotals[indexOfReference] =
+        cloneEachTotals[indexOfReference] + parseFloat(item.price);
+
+      console.log("index fin else=>", index);
     }
+
+    // let sum = cloneEachTotals.reduce((acc, currentValue) => acc + currentValue);
+    for (const element of cloneEachTotals) {
+      sum += element;
+    }
+    console.log("subTotal fin handleClickOnItem =>", subTotal);
+    setCounterCart(cloneCounter);
+    setEachTotals(cloneEachTotals);
+    setSubTotal(parseFloat(sum));
+    setDeliveryFee(2.5);
+    setTotal(subTotal + deliveryFee);
   };
 
   const handleIncrement = (item, index) => {
     const cloneCounter = [...counterCart];
     cloneCounter[index] = cloneCounter[index] + 1;
+    const cloneEachTotals = [...eachTotals];
+    cloneEachTotals[index] = cloneEachTotals[index] + parseFloat(item.price);
+    let sum = cloneEachTotals.reduce((acc, currentValue) => acc + currentValue);
     setCounterCart(cloneCounter);
+    setEachTotals(cloneEachTotals);
+    setSubTotal(parseFloat(sum));
+    setDeliveryFee(2.5);
+    setTotal(subTotal + deliveryFee);
   };
   const handleDecrement = (item, index) => {
     const cloneCounter = [...counterCart];
     const cloneItemsOnCart = [...itemsOnCart];
+    const cloneEachTotals = [...eachTotals];
 
     if (cloneCounter[index] === 1) {
       console.log("last index => ", item[index]);
       cloneItemsOnCart.splice(index, 1);
       cloneCounter.splice(index, 1);
+      cloneEachTotals.splice(index, 1);
       setItemsOnCart(cloneItemsOnCart);
-      setCounterCart(cloneCounter);
+      // setCounterCart(cloneCounter);
     } else {
       cloneCounter[index] = cloneCounter[index] - 1;
-      setCounterCart(cloneCounter);
+
+      cloneEachTotals[index] = cloneEachTotals[index] - parseFloat(item.price);
     }
+    setCounterCart(cloneCounter);
+    let sum = cloneEachTotals.reduce(
+      (acc, currentValue) => acc + currentValue,
+      0
+    );
+    setEachTotals(cloneEachTotals);
+    setSubTotal(parseFloat(sum));
+    setDeliveryFee(2.5);
+    setTotal(subTotal + deliveryFee);
   };
 
   useEffect(() => {
@@ -77,6 +119,13 @@ function App() {
     fetchData();
   }, []);
 
+  useEffect(() => {
+    const getCartTotal = () => {
+      return setTotal(subTotal + deliveryFee);
+    };
+
+    getCartTotal();
+  }, [subTotal]);
   // console.log("render HERE!");
   return isLoading ? (
     <p>Loading ....</p>
@@ -109,6 +158,12 @@ function App() {
             handleDecrement={handleDecrement}
             handleIncrement={handleIncrement}
             counterCart={counterCart}
+            eachTotals={eachTotals}
+            setEachTotals={setEachTotals}
+            total={total}
+            setTotal={setTotal}
+            subTotal={subTotal}
+            deliveryFee={deliveryFee}
           />
         </div>
       </main>

@@ -21,6 +21,10 @@ h1 {
   font-weight: bold;
 }
 
+.border-bottom {
+  border-bottom: var(--border-bottom);
+}
+
 /*=======HEADER======*/
 header {
   width: 100%;
@@ -170,6 +174,9 @@ aside .cart {
   top: 30px;
   border-radius: 6px;
 }
+aside .cart.cart-mobile {
+  display: none;
+}
 .cart button {
   width: 100%;
   border: 1px solid transparent;
@@ -184,10 +191,22 @@ aside .cart {
   transition: all 0.4s ease-in-out;
   cursor: pointer;
 }
+.cart button.disabled {
+  background: #bac3c3;
+  color: #8b9a9b;
+  cursor: not-allowed;
+}
 button:hover {
   background-color: white;
   color: var(--primary-color);
   border: 1px solid var(--primary-color);
+}
+.cart button.disabled,
+.cart button.disabled:hover {
+  background: #bac3c3;
+  color: #8b9a9b;
+  cursor: not-allowed;
+  border: none;
 }
 
 .cart-items {
@@ -195,6 +214,7 @@ button:hover {
   flex-direction: column;
   gap: 30px;
 }
+
 .cart-items > p {
   text-align: center;
   color: var(--p-color);
@@ -204,6 +224,8 @@ button:hover {
   display: flex;
   justify-content: space-between;
   gap: 10px;
+
+  padding-bottom: 10px;
 }
 .cart-inner .counter {
   display: flex;
@@ -219,4 +241,27 @@ button:hover {
 
 .cart-inner .title {
   flex: 1 1;
+}
+.totals-section {
+  display: flex;
+  flex-direction: column;
+  gap: 25px;
+  padding: 20px 0;
+}
+.subtotal {
+  border-bottom: var(--border-bottom);
+}
+.subtotal > div {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 25px;
+}
+.total {
+  display: flex;
+  justify-content: space-between;
+}
+.total span {
+  font-size: 22px;
+  font-weight: bold;
+  color: var(--text-color);
 }
