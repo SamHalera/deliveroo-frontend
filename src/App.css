@@ -173,6 +173,7 @@ aside .cart {
   position: sticky;
   top: 30px;
   border-radius: 6px;
+  box-shadow: var(--box-shadow);
 }
 aside .cart.cart-mobile {
   display: none;

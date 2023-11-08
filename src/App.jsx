@@ -9,10 +9,11 @@ import Category from "./components/Category";
 import Aside from "./components/Aside";
 
 function App() {
-  // console.log("1");
   const [data, setData] = useState();
   const [isLoading, setIsLoading] = useState(true);
   const [itemsOnCart, setItemsOnCart] = useState([]);
+
+  //counterCart is an array of counter => a counter for each item of the cart
   const [counterCart, setCounterCart] = useState([]);
   const [eachTotals, setEachTotals] = useState([]);
   const [subTotal, setSubTotal] = useState(0);
@@ -24,35 +25,47 @@ function App() {
   console.log("eachTotals =>", eachTotals);
   console.log("subTotal =>", subTotal);
   console.log("total =>", total);
-  // console.log("2");
 
   //Deal with the add to cart item
-  const handleClickOnItem = (item, index) => {
+  const handleAddToCart = (item, index) => {
     const cloneCounter = [...counterCart];
     const cloneItemsOnCart = [...itemsOnCart];
     const cloneEachTotals = [...eachTotals];
     let sum = 0;
+
+    //If the item not exists inside the cart we simply add it on the list
     if (!cloneItemsOnCart.includes(item)) {
       console.log("IF");
       console.log("index=>", index);
+
+      //add item to cart
       cloneItemsOnCart.push(item);
+
+      //add a counter refered to the item inside the cart array
       cloneCounter.push(1);
       cloneEachTotals.push(parseFloat(item.price));
       setItemsOnCart(cloneItemsOnCart);
       // setCounterCart(cloneCounter);
       // setEachTotals(cloneEachTotals);
-    } else {
+    }
+    //If item alredady exists inside the cart we increment the counter and the subtotals and total
+    else {
+      //(item in cart and count must have the same index!!)
       const indexOfReference = cloneItemsOnCart.indexOf(item);
       console.log("ELSE");
       console.log("index inside else=>", cloneCounter);
+
+      //increment the counter
       cloneCounter[indexOfReference] = cloneCounter[indexOfReference] + 1;
+
+      //increment the total price depending on the quantity of a same item
       cloneEachTotals[indexOfReference] =
         cloneEachTotals[indexOfReference] + parseFloat(item.price);
 
       console.log("index fin else=>", index);
     }
 
-    // let sum = cloneEachTotals.reduce((acc, currentValue) => acc + currentValue);
+    //Calculate the sum each item total price
     for (const element of cloneEachTotals) {
       sum += element;
     }
@@ -64,6 +77,8 @@ function App() {
     setTotal(subTotal + deliveryFee);
   };
 
+  //Inside the Cart, when click on "plus" icon we increment the quantity of one item
+  // Increment the value of the counter for a specific item
   const handleIncrement = (item, index) => {
     const cloneCounter = [...counterCart];
     cloneCounter[index] = cloneCounter[index] + 1;
@@ -119,6 +134,7 @@ function App() {
     fetchData();
   }, []);
 
+  //whenever subtotal change we update teh main total cart
   useEffect(() => {
     const getCartTotal = () => {
       return setTotal(subTotal + deliveryFee);
@@ -127,6 +143,8 @@ function App() {
     getCartTotal();
   }, [subTotal]);
   // console.log("render HERE!");
+
+  ///////// RENDER //////////////////////////////////////////////////////////////////////////////
   return isLoading ? (
     <p>Loading ....</p>
   ) : (
@@ -145,7 +163,7 @@ function App() {
                   <Category
                     key={category.name}
                     category={category}
-                    handleClickOnItem={handleClickOnItem}
+                    handleAddToCart={handleAddToCart}
                   />
                 );
               } else {

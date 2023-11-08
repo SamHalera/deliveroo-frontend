@@ -1,8 +1,8 @@
-const Meal = ({ meal, handleClickOnItem, index }) => {
+const Meal = ({ meal, handleAddToCart, index }) => {
   return (
     <article
       onClick={() => {
-        handleClickOnItem(meal, index);
+        handleAddToCart(meal, index);
       }}
       key={meal.id}
       className="one-meal"

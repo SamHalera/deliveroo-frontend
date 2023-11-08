@@ -1,6 +1,6 @@
 import Meal from "./Meal";
 
-const Category = ({ category, handleClickOnItem }) => {
+const Category = ({ category, handleAddToCart }) => {
   // display a section for each category
   return (
     // display a section for each category
@@ -17,7 +17,7 @@ const Category = ({ category, handleClickOnItem }) => {
             <Meal
               key={meal.id}
               meal={meal}
-              handleClickOnItem={handleClickOnItem}
+              handleAddToCart={handleAddToCart}
               index={index}
             />
           );

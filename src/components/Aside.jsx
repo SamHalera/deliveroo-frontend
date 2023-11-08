@@ -28,6 +28,7 @@ const Aside = ({
         subTotal={subTotal}
       />
 
+      {/* Cart for mobile version ==> in progress */}
       <CartMobile
         itemsOnCart={itemsOnCart}
         handleDecrement={handleDecrement}
